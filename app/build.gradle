@@ -3,10 +3,11 @@ plugins {
 }
 
 android {
+    namespace "app.hack.eightballpool"
     compileSdkVersion 36
 
     defaultConfig {
-        applicationId "app.hack.eightballpool"
+        applicationId "com.heitor.poolguide"
         minSdkVersion 26
         //noinspection ExpiredTargetSdkVersion,OldTargetApi
         targetSdkVersion 28
