@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,9 +24,19 @@ jobs:
           gradle-version: '8.14.3'
 
       - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon
+        run: |
+          gradle :app:assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk PoolGuide.apk
 
       - uses: actions/upload-artifact@v4
         with:
           name: 8BallPool-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: PoolGuide.apk
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: PoolGuide build ${{ github.run_number }}
+          files: PoolGuide.apk
+          make_latest: true
